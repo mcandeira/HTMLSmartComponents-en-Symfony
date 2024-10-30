@@ -10,41 +10,42 @@
             border-radius: 15px;
         }
 
-        #{{ smart.ID }} > ul{
+        #{{ smart.ID }} ul{
             width: 100%;
             margin-top: 10px;
             padding: 10px;
             border: dashed 1px grey;
             background-color: white;
             list-style-type: none;
-        }
+        }  
     </style>
 
     <script>
         (() => {
 
-            const form = document.querySelector('{{ smart.ID }} > form')
-            const output = document.querySelector('{{ smart.ID }} > ul')
-
+            const form = document.querySelector('#{{ smart.ID }} > form')
+            const output = document.querySelector('#{{ smart.ID }} > ul')
+            
             form.addEventListener('submit', (e) => {
 
                 e.preventDefault()
 
-                smart.apiCall(e.target.action, new FormData(e.target), (data) => {
-
-                    const json = JSON.stringify(data).replaceAll(/{|}|"/g, '')//Aquí se puede mejorar
-
-                    let outputText = ''
-                    for(let linea of json.split(',')){//Probablemente todo esto es innecesario
-                        let chunks = linea.split(':')// "
-                        let clave = chunks[0][0].toUpperCase() + chunks[0].substring(1) // ?
-                        outputText += `<li><strong>${clave}</strong>: ${chunks[1]}.</li>` // ?
+                smart.apiCall(e.target.action, new FormData(e.target), smart.errorConsole, (data) => {
+                    
+                    let outputText = '<li><ul>'
+                    for(property in data.resultado){
+                        
+                        const clave = property[0].toUpperCase() + property.substring(1)
+                        
+                        outputText += property == 'club' && data.resultado[property] ?
+                            `<li><strong>${clave}</strong>: ${data.resultado[property].name ?? 'No'}.</li>` :
+                            `<li><strong>${clave}</strong>: ${data.resultado[property] ?? 'No'}.</li>`
                     }
-
+                    outputText += '</li></ul>'
+                    
                     output.innerHTML = outputText
                     output.style.border = 'solid 1px black'
-
-                }, smart.errorConsole)
+                })
 
             })
 

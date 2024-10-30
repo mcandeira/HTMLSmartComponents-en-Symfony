@@ -5,57 +5,49 @@ namespace App\Repository;
 use App\Entity\Club;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @extends ServiceEntityRepository<Club>
  */
 class ClubRepository extends ServiceEntityRepository
 {
-    public function __construct(
-        ManagerRegistry $registry,
-        private SerializerInterface $serializer
-    )
+    const cantidadResultados = 10;
+
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Club::class);
     }
 
-    public function listClubs(int $page): string{
+    public function countClubs(string $filter1 = null, string $filter2 = null): int{
 
-        $cantidadResultados = 10;
+        $qb = $this->createQueryBuilder('e')
+            ->select('count(e.id)');
 
-        $clubs = $this -> createQueryBuilder('c')
-            ->setFirstResult(($page - 1) * $cantidadResultados)
-            ->setMaxResults($cantidadResultados)
-            ->getQuery()
-            ->getResult();
-
-        return $this->serializer->serialize($clubs, 'json', [AbstractNormalizer::ATTRIBUTES => ['id', 'name', 'budget', ]]);
+        return ceil($qb->getQuery()->getSingleScalarResult() / self::cantidadResultados);
     }
 
-    //    /**
-    //     * @return Club[] Returns an array of Club objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function listClubs(int $page, string $filter1 = null, string $filter2 = null): array{
 
-    //    public function findOneBySomeField($value): ?Club
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $qb = $this->createQueryBuilder('c')
+            ->select("c.id", "c.name", "c.budget")
+            ->setFirstResult(($page - 1) * self::cantidadResultados)
+            ->setMaxResults(self::cantidadResultados);
+
+        switch($filter1){
+            case 'names':               $qb -> addOrderBy('c.name', 'ASC'); break;
+            case 'reversedNames':       $qb -> addOrderBy('c.name', 'DESC'); break;
+            case 'budgets':             $qb -> addOrderBy('c.budget', 'ASC'); break;
+            case 'reversedBudgets':     $qb -> addOrderBy('c.budget', 'DESC'); break;
+        }
+
+        switch($filter2){
+            case 'names':               $qb -> addOrderBy('c.name', 'ASC'); break;
+            case 'reversedNames':       $qb -> addOrderBy('c.name', 'DESC'); break;
+            case 'budgets':             $qb -> addOrderBy('c.budget', 'ASC'); break;
+            case 'reversedBudgets':     $qb -> addOrderBy('c.budget', 'DESC'); break;
+        }
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
 }

@@ -32,15 +32,17 @@ class CoachController extends AbstractController
             $EM->flush();
 
             return $this->json([
-                'resultado' => 'Se ha creado un nuevo coach',
-                'id' => $coach->getId(),
-                'nombre' => $coach->getName(),
+                'resultado' => [
+                    'mensaje' => 'Se ha creado un nuevo coach',
+                    'id' => $coach->getId(),
+                    'nombre' => $coach->getName()
+                ]
             ]);
         }
 
         return $this->json([
-            'resultado' => 'Los datos recibidos no son correctos',
-            'datos_recibidos' => $form->all()
+            'error' => 'Los datos recibidos no son correctos',
+            'resultado' => $form->all()
         ]);
     }
 
@@ -60,17 +62,21 @@ class CoachController extends AbstractController
 
             if($coach -> getClub()){
                 return $this->json([
-                    'resultado' => 'El coach ya está registrado en algún club',
-                    'id' => $coach->getID(),
+                    'resultado' => [
+                        'mensaje' => 'El coach ya está registrado en algún club',
+                        'id' => $coach->getID()
+                    ]
                 ]);
             }
 
             $budget = $club->getBudget();
             if($budget < $salary){
                 return $this->json([
-                    'resultado' => 'El presupuesto del club no es suficiente',
-                    'presupuesto' => $budget,
-                    'salario' => $salary,
+                    'resultado' => [
+                        'mensaje' => 'El presupuesto del club no es suficiente',
+                        'presupuesto' => $budget,
+                        'salario' => $salary
+                    ]
                 ]);
             }
 
@@ -81,15 +87,17 @@ class CoachController extends AbstractController
             $EM->flush();
 
             return $this->json([
-                'resultado' => 'El coach ha sido registrado exitosamente en en el club indicado',
-                'id_club' => $club->getID(),
-                'id_coach' => $coach->getID()
+                'resultado' => [
+                    'mensaje' => 'El coach ha sido registrado exitosamente en en el club indicado',
+                    'id_club' => $club->getID(),
+                    'id_coach' => $coach->getID()
+                ]
             ]);
         }
 
         return $this->json([
-            'resultado' => 'Los datos recibidos no son correctos',
-            'datos_recibidos' => $form->all()
+            'error' => 'Los datos recibidos no son correctos',
+            'resultado' => $form->all()
         ]);
 
     }
@@ -109,9 +117,11 @@ class CoachController extends AbstractController
 
             if($coach->getClub()->getID() != $club->getID()){
                 return $this->json([
-                    'resultado' => 'El coach no está registrado en dicho club',
-                    'id_club' => $club->getID(),
-                    'id_coach' => $coach->getID()
+                    'resultado' => [
+                        'mensaje' => 'El coach no está registrado en dicho club',
+                        'id_club' => $club->getID(),
+                        'id_coach' => $coach->getID()
+                    ]
                 ]);
             }
 
@@ -122,15 +132,17 @@ class CoachController extends AbstractController
             $EM->flush();
 
             return $this->json([
-                'resultado' => 'El coach ha sido removido exitosamente del club indicado',
-                'id_club' => $club->getID(),
-                'id_player' => $coach->getID()
+                'resultado' => [
+                    'mensaje' => 'El coach ha sido removido exitosamente del club indicado',
+                    'id_club' => $club->getID(),
+                    'id_player' => $coach->getID()
+                ]
             ]);
         }
 
         return $this->json([
-            'resultado' => 'Los datos recibidos no son correctos',
-            'datos_recibidos' => $form->all()
+            'error' => 'Los datos recibidos no son correctos',
+            'resultado' => $form->all(),
         ]);
     }
 
@@ -142,13 +154,16 @@ class CoachController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            return $this->json($repo -> listCoaches($form->getData()['page']));
+            return $this->json([
+                'paginas' => $repo->countCoaches($form->getData()['filter1'], $form->getData()['filter2']),
+                'resultado' => $repo->listCoaches($form->getData()['page'], $form->getData()['filter1'], $form->getData()['filter2'])
+            ]);
 
         }
 
         return $this->json([
-            'resultado' => 'Los datos recibidos no son correctos',
-            'datos_recibidos' => $form->all()
+            'error' => 'Los datos recibidos no son correctos',
+            'resultado' => $form->all()
         ]);
     }
 

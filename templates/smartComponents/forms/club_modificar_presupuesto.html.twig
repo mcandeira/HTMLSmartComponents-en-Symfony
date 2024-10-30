@@ -10,4 +10,13 @@
         <input type="number" class="form-control" id="clubBudget" aria-describedby="budget" name="budget" required>
     </div>
     <button type="submit" class="btn btn-primary">Enviar</button>
+
+    <script>
+        (() => {
+
+            const clubSelect = document.querySelector('#clubSelect')
+            smart.fillSelect('/api/club/listar', clubSelect)
+
+        })()
+    </script>
 </form>

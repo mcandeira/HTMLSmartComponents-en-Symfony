@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% set accion = (action ~ ' ' ~ element)|title %}
+
+{% block title %}{{ accion }}{% endblock %}
+
+{% block breadcrumbs %}{% set smart = start('breadcrumbs', {crumb: accion}) %}{#######}{{ include(smart.component, smart.vals) }}{% endblock %}
+
+{% block form %}
+    {% if action == 'listar' %}
+        {% set smart = start('forms/' ~ element ~ '_' ~ action) %}{#######}{{ include(smart.component, smart.vals) }}
+    {% else %}
+        {% set smart = start('forms/action_form', {action: action, element: element}) %}{#######}{{ include(smart.component, smart.vals) }}
+    {% endif %}
+{% endblock %}

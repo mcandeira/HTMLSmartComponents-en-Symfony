@@ -31,16 +31,18 @@ class ClubController extends AbstractController
             $EM->flush();
 
             return $this->json([
-                'resultado' => 'Se ha creado un nuevo club',
-                'id' => $club->getID(),
-                'nombre' => $club->getName(),
-                'presupuesto' => $club->getBudget(),
+                'resultado' => [
+                    'mensaje' => 'Se ha creado un nuevo club',
+                    'id' => $club->getID(),
+                    'nombre' => $club->getName(),
+                    'presupuesto' => $club->getBudget()
+                ]
             ]);
         }
 
         return $this->json([
-            'resultado' => 'Los datos recibidos no son correctos',
-            'datos_recibidos' => $form->all()
+            'error' => 'Los datos recibidos no son correctos',
+            'resultado' => $form->all()
         ]);
     }
 
@@ -60,16 +62,18 @@ class ClubController extends AbstractController
             $EM->flush();
 
             return $this->json([
-                'resultado' => 'Se ha actualizado el presupuesto del club',
-                'id' => $club->getID(),
-                'nombre' => $club->getName(),
-                'presupuesto' => $club->getBudget(),
+                'resultado' => [
+                    'mensaje' => 'Se ha actualizado el presupuesto del club',
+                    'id' => $club->getID(),
+                    'nombre' => $club->getName(),
+                    'presupuesto' => $club->getBudget()
+                ]
             ]);
         }
 
         return $this->json([
-            'resultado' => 'Los datos recibidos no son correctos',
-            'datos_recibidos' => $form->all()
+            'error' => 'Los datos recibidos no son correctos',
+            'resultado' => $form->all()
         ]);
     }
 
@@ -81,13 +85,16 @@ class ClubController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            return $this->json($repo -> listClubs($form->getData()['page']));
+            return $this->json([
+                'paginas' => $repo->countClubs($form->getData()['filter1'], $form->getData()['filter2']),
+                'resultado' => $repo->listClubs($form->getData()['page'], $form->getData()['filter1'], $form->getData()['filter2'])
+            ]);
 
         }
 
         return $this->json([
-            'resultado' => 'Los datos recibidos no son correctos',
-            'datos_recibidos' => $form->all()
+            'error' => 'Los datos recibidos no son correctos',
+            'resultado' => $form->all()
         ]);
     }
 

@@ -32,15 +32,17 @@ class PlayerController extends AbstractController
             $EM->flush();
 
             return $this->json([
-                'resultado' => 'Se ha creado un nuevo jugador',
-                'id' => $player->getId(),
-                'nombre' => $player->getName(),
+                'resultado' => [
+                    'mensaje' => 'Se ha creado un nuevo jugador',
+                    'id' => $player->getId(),
+                    'nombre' => $player->getName()
+                ]
             ]);
         }
 
         return $this->json([
-            'resultado' => 'Los datos recibidos no son correctos',
-            'datos_recibidos' => $form->all()
+            'error' => 'Los datos recibidos no son correctos',
+            'resultado' => $form->all()
         ]);
     }
 
@@ -60,17 +62,21 @@ class PlayerController extends AbstractController
 
             if($player -> getClub()){
                 return $this->json([
-                    'resultado' => 'El jugador ya está registrado en algún club',
-                    'id' => $player->getID(),
+                    'resultado' => [
+                        'mensaje' => 'El jugador ya está registrado en algún club',
+                        'id' => $player->getID()
+                    ]
                 ]);
             }
 
             $budget = $club->getBudget();
             if($budget < $salary){
                 return $this->json([
-                    'resultado' => 'El presupuesto del club no es suficiente',
-                    'presupuesto' => $budget,
-                    'salario' => $salary,
+                    'resultado' => [
+                        'mensaje' => 'El presupuesto del club no es suficiente',
+                        'presupuesto' => $budget,
+                        'salario' => $salary
+                    ]
                 ]);
             }
 
@@ -81,15 +87,17 @@ class PlayerController extends AbstractController
             $EM->flush();
 
             return $this->json([
-                'resultado' => 'El jugador ha sido registrado exitosamente en en el club indicado',
-                'id_club' => $club->getID(),
-                'id_jugador' => $player->getID()
+                'resultado' => [
+                    'mensaje' => 'El jugador ha sido registrado exitosamente en en el club indicado',
+                    'id_club' => $club->getID(),
+                    'id_jugador' => $player->getID()
+                ]
             ]);
         }
 
         return $this->json([
-            'resultado' => 'Los datos recibidos no son correctos',
-            'datos_recibidos' => $form->all()
+            'error' => 'Los datos recibidos no son correctos',
+            'resultado' => $form->all()
         ]);
 
     }
@@ -109,9 +117,11 @@ class PlayerController extends AbstractController
 
             if($player->getClub()->getID() != $club->getID()){
                 return $this->json([
-                    'resultado' => 'El jugador no está registrado en dicho club',
-                    'id_club' => $club->getID(),
-                    'id_jugador' => $player->getID()
+                    'resultado' => [
+                        'mensaje' => 'El jugador no está registrado en dicho club',
+                        'id_club' => $club->getID(),
+                        'id_jugador' => $player->getID()
+                    ]
                 ]);
             }
 
@@ -122,33 +132,38 @@ class PlayerController extends AbstractController
             $EM->flush();
 
             return $this->json([
-                'resultado' => 'El jugador ha sido removido exitosamente del club indicado',
-                'id_club' => $club->getID(),
-                'id_jugador' => $player->getID()
+                'resultado' => [
+                    'mensaje' => 'El jugador ha sido removido exitosamente del club indicado',
+                    'id_club' => $club->getID(),
+                    'id_jugador' => $player->getID()
+                ]
             ]);
         }
 
         return $this->json([
-            'resultado' => 'Los datos recibidos no son correctos',
-            'datos_recibidos' => $form->all()
+            'error' => 'Los datos recibidos no son correctos',
+            'resultado' => $form->all()
         ]);
     }
 
     #[Route('/api/jugador/listar', name: 'app_api_jugador_listar')]
-    public function listP(Request $request, PlayerRepository $repo): JsonResponse
+    public function list(Request $request, PlayerRepository $repo): JsonResponse
     {
         $form = $this->createForm(PlayerListType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            return $this->json($repo->listPlayers($form->getData()['page']));
+            return $this->json([
+                'paginas' => $repo->countPlayers($form->getData()['filter1'], $form->getData()['filter2']),
+                'resultado' => $repo->listPlayers($form->getData()['page'], $form->getData()['filter1'], $form->getData()['filter2'])
+            ]);
 
         }
 
         return $this->json([
-            'resultado' => 'Los datos recibidos no son correctos',
-            'datos_recibidos' => $form->all()
+            'error' => 'Los datos recibidos no son correctos',
+            'resultado' => $form->all()
         ]);
     }
 

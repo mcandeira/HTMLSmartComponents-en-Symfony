@@ -1,3 +1,126 @@
-<form action="/api/coach/listar" method="POST">
-    <button type="submit" class="btn btn-primary">Enviar</button>
-</form>
+<div id="{{ smart.ID }}">
+    <h2>Listar Coaches</h2>
+    <form action="/api/coach/listar" method="POST">
+        <div class="mb-3">
+            <label for="filterSelect1" class="form-label">Filtrar por</label>
+            <select class="form-select" name="filter1" id="filterSelect1">
+                <option value="names" selected>Nombre [A-Z]</option>
+                <option value="reversedNames">Nombre [Z-A]</option>
+                <option value="salarys">Salario [De menor a mayor]</option>
+                <option value="reversedSalarys">Salario [De mayor a menor]</option>
+                <option value="hasSalary">Asalariados</option>
+                <option value="!hasSalary">No asalariados</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="filterSelect2" class="form-label">Filtrar por</label>
+            <select class="form-select" name="filter2" id="filterSelect2">
+                <option value="" selected>Escoge una opción</option>
+                <option value="names">Nombre [A-Z]</option>
+                <option value="reversedNames">Nombre [Z-A]</option>
+                <option value="salarys">Salario [De menor a mayor]</option>
+                <option value="reversedSalarys">Salario [De mayor a menor]</option>
+                <option value="hasSalary">Asalariados</option>
+                <option value="!hasSalary">No asalariados</option>
+            </select>
+        </div>
+        <input type="hidden" name="page" value="1">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
+    <nav>
+        <p>Páginas</p>
+        <ul class="pagination"></ul>
+    </nav>
+    <ul>Resultado</ul>
+
+    <style>
+        #{{ smart.ID }}{
+            padding: 50px;
+            background-color: whitesmoke;
+            border-radius: 15px;
+        }
+
+        #{{ smart.ID }} > ul, #{{ smart.ID }} > ul ul{
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border: dashed 1px grey;
+            background-color: white;
+            list-style-type: none;
+        }
+    </style>
+
+    <script class="form-preload">
+        (() => {
+
+            const form = document.querySelector('#{{ smart.ID }} > form')
+            
+            window.addEventListener('load', () => {
+                form.requestSubmit()
+            })
+            
+        })()
+    </script>
+    
+    <script class="form-postsubmit">
+        (() => {
+
+            const form = document.querySelector('#{{ smart.ID }} > form')
+            const output = document.querySelector('#{{ smart.ID }} > ul')
+            
+            form.addEventListener('submit', (e) => {
+
+                e.preventDefault()
+
+                smart.apiCall(e.target.action, new FormData(e.target), smart.errorConsole, (data) => {
+
+                    let outputText = ''
+                    for(let element of data.resultado){
+                        outputText += '<li><ul>'
+                        for(property in element){
+
+                            const clave = property[0].toUpperCase() + property.substring(1)
+
+                            outputText += property == 'club' && element[property] ?
+                                `<li><strong>${clave}</strong>: ${element[property].name ?? 'No'}.</li>` :
+                                `<li><strong>${clave}</strong>: ${element[property] ?? 'No'}.</li>`
+                        }
+                        outputText += '</li></ul>'
+                    }
+
+                    output.innerHTML = outputText
+                    output.style.border = 'solid 1px black'
+
+                    //PAGINACIÓN
+                    const pagination = document.querySelector('.pagination')
+                    const setPagina = document.querySelector('#{{ smart.ID }} > form > input')
+
+                    pagination.innerHTML = ''
+
+                    let botones = ''
+                    for(let i = 1; i <= data.paginas; i++){
+
+                        let fila = document.createElement('li')
+                        fila.classList.add('page-item')
+
+                        let boton = document.createElement('button')
+                        boton.classList.add('page-link')
+                        boton.textContent = i
+
+                        boton.addEventListener('click', () => {
+                            setPagina.value = i
+                            form.requestSubmit()
+                            setPagina.value = 1
+                        })
+
+                        fila.appendChild(boton)
+                        pagination.appendChild(fila)
+                    }
+
+                })
+
+            })
+
+        })()
+    </script>
+</div>
