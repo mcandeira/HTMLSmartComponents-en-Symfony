@@ -1,0 +1,32 @@
+<form action="/api/coach/eliminar" method="POST">
+    <div class="mb-3">
+        <label for="clubSelect" class="form-label">Club</label>
+        <select class="form-select" name="club" id="clubSelect" required>
+            <option selected>No se ha podido obtener la información</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="coachSelect" class="form-label">Coach</label>
+        <select class="form-select" name="coach" id="coachSelect" required>
+            <option selected>--Primero seleccione un club--</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+
+    <script>
+        (() => {
+
+            const clubSelect = document.querySelector('#clubSelect')
+            const coachSelect = document.querySelector('#coachSelect')
+
+            smart.fillSelect('/api/club/listar', clubSelect)
+
+            clubSelect.addEventListener('change', (e) => {
+
+                smart.fillSelectClubConditional('/api/coach/listar', coachSelect, e.target.value)
+                
+            })
+
+        })()
+    </script>
+</form>

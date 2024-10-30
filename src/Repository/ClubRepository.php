@@ -5,32 +5,33 @@ namespace App\Repository;
 use App\Entity\Club;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @extends ServiceEntityRepository<Club>
  */
 class ClubRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private SerializerInterface $serializer
+    )
     {
         parent::__construct($registry, Club::class);
     }
 
-    public function listPlayers(int $clubID, string $playerPropertie, string $condition, string $referenceValue, int $page): array{
+    public function listClubs(int $page): string{
 
         $cantidadResultados = 10;
 
-        return $this -> createQueryBuilder('c')
-            ->innerJoin('c.players', 'p')
-            ->select('p.name', 'p.salary')
-            ->andWhere('c.id = :clubID')
-            ->setParameter('clubID', $clubID)
-            ->andWhere("p.$playerPropertie $condition :value")
-            ->setParameter('value', $referenceValue)
+        $clubs = $this -> createQueryBuilder('c')
             ->setFirstResult(($page - 1) * $cantidadResultados)
             ->setMaxResults($cantidadResultados)
             ->getQuery()
             ->getResult();
+
+        return $this->serializer->serialize($clubs, 'json', [AbstractNormalizer::ATTRIBUTES => ['id', 'name', 'budget', ]]);
     }
 
     //    /**

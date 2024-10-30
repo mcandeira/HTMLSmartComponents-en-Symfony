@@ -1,0 +1,13 @@
+<form action="/api/club/modificar_presupuesto" method="POST">
+    <div class="mb-3">
+        <label for="clubSelect" class="form-label">Club</label>
+        <select class="form-select" name="club" id="clubSelect" required>
+            <option selected>No se ha podido obtener la información</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="clubBudget" class="form-label">Presupuesto</label>
+        <input type="number" class="form-control" id="clubBudget" aria-describedby="budget" name="budget" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>

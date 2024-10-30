@@ -1,0 +1,60 @@
+<nav id="{{ smart.ID }}">
+    <ul>
+        <li>
+            <span>Jugador</span>
+            <ul>
+                <li><a href="/jugador/crear">        Crear Jugador        </a></li>
+                <li><a href="/jugador/registrar">    Registrar Jugador    </a></li>
+                <li><a href="/jugador/eliminar">     Eliminar Jugador     </a></li>
+                <li><a href="/jugador/listar">       Listar Jugadores     </a></li>
+            </ul>
+        </li>
+        <li>
+            <span>Coach</span>
+            <ul>
+                <li><a href="/coach/crear">     Crear Coach      </a></li>
+                <li><a href="/coach/registrar"> Registrar Coach  </a></li>
+                <li><a href="/coach/eliminar">  Eliminar Coach   </a></li>
+                <li><a href="/coach/listar">    Listar Coaches   </a></li>
+            </ul>
+        </li>
+        <li>
+            <span>Club</span>
+            <ul>
+                <li><a href="/club/crear">                  Crear Club       </a></li>
+                <li><a href="/club/modificar_presupuesto">  Registrar Club   </a></li>
+                <li><a href="/club/listar">                 Listar Clubes    </a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <style>
+        #{{ smart.ID }}{
+            background-color: darkorchid;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        #{{ smart.ID }} span{
+            color: silver;
+        }
+
+        #{{ smart.ID }} ul{
+            padding: 20px;
+            list-style-type: none;
+        }
+
+        #{{ smart.ID }} ul > li{
+            margin-top: 10px;
+        }
+
+        #{{ smart.ID }} ul > li > a{
+            color: white;
+            text-decoration: none;
+        }
+
+        #{{ smart.ID }} ul > li > a:hover{
+            color: aquamarine;
+        }
+    </style>
+</nav>

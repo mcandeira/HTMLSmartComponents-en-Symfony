@@ -1,20 +1,16 @@
 <?php
 
-namespace App\Form\Type;
+namespace App\Form;
 
 use App\Entity\Club;
-use Doctrine\ORM\Mapping\Entity;
+use App\Entity\Coach;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Positive;
 
-class ListPlayersType extends AbstractType
+class CoachRemoveType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -25,25 +21,10 @@ class ListPlayersType extends AbstractType
                     new NotBlank(),
                 ]
             ])
-            ->add('playerProperty', TextType::class, [
+            ->add('coach', EntityType::class, [
+                'class' => Coach::class,
                 'constraints' => [
                     new NotBlank(),
-                ]
-            ])
-            ->add('condition', TextType::class, [
-                'constraints' => [
-                    new NotBlank(),
-                ]
-            ])
-            ->add('referenceValue', TextType::class, [
-                'constraints' => [
-                    new NotBlank(),
-                ]
-            ])
-            ->add('page', IntegerType::class, [
-                'constraints' => [
-                    new NotBlank(),
-                    new Positive()
                 ]
             ])
         ;

@@ -1,0 +1,53 @@
+<div id="{{ smart.ID }}">
+    <h2>{{ (action ~ ' ' ~ element)|title }}</h2>
+    {% set smart = start('forms/' ~ element ~ '_' ~ action) %}{#######}{{ include(smart.component, smart.vals) }}{% set smart = end() %}
+    <ul>Resultado</ul>
+
+    <style>
+        #{{ smart.ID }}{
+            padding: 50px;
+            background-color: whitesmoke;
+            border-radius: 15px;
+        }
+
+        #{{ smart.ID }} > ul{
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border: dashed 1px grey;
+            background-color: white;
+            list-style-type: none;
+        }
+    </style>
+
+    <script>
+        (() => {
+
+            const form = document.querySelector('{{ smart.ID }} > form')
+            const output = document.querySelector('{{ smart.ID }} > ul')
+
+            form.addEventListener('submit', (e) => {
+
+                e.preventDefault()
+
+                smart.apiCall(e.target.action, new FormData(e.target), (data) => {
+
+                    const json = JSON.stringify(data).replaceAll(/{|}|"/g, '')//Aquí se puede mejorar
+
+                    let outputText = ''
+                    for(let linea of json.split(',')){//Probablemente todo esto es innecesario
+                        let chunks = linea.split(':')// "
+                        let clave = chunks[0][0].toUpperCase() + chunks[0].substring(1) // ?
+                        outputText += `<li><strong>${clave}</strong>: ${chunks[1]}.</li>` // ?
+                    }
+
+                    output.innerHTML = outputText
+                    output.style.border = 'solid 1px black'
+
+                }, smart.errorConsole)
+
+            })
+
+        })()
+    </script>
+</div>

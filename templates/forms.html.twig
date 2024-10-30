@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% set accion = (action ~ ' ' ~ element)|title %}
+
+{% block title %}{{ accion }}{% endblock %}
+
+{% block breadcrumbs %}{% set smart = start('breadcrumbs', {crumb: accion}) %}{#######}{{ include(smart.component, smart.vals) }}{% endblock %}
+
+{% block form %}{% set smart = start('forms/action_form', {action: action, element: element}) %}{#######}{{ include(smart.component, smart.vals) }}{% endblock %}

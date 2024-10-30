@@ -3,7 +3,11 @@
 namespace App\Controller\api;
 
 use App\Entity\Player;
-use App\Form\Type\PlayerType;
+use App\Form\PlayerCreateType;
+use App\Form\PlayerListType;
+use App\Form\PlayerRegisterType;
+use App\Form\PlayerRemoveType;
+use App\Repository\PlayerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,12 +16,12 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PlayerController extends AbstractController
 {
-    #[Route('/api/player', name: 'app_api_player')]
-    public function new(Request $request, EntityManagerInterface $EM): JsonResponse{
+    #[Route('/api/jugador/crear', name: 'app_api_jugador_crear')]
+    public function create(Request $request, EntityManagerInterface $EM): JsonResponse{
 
         $player = new Player();
 
-        $form = $this->createForm(PlayerType::class, $player);
+        $form = $this->createForm(PlayerCreateType::class, $player);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -28,14 +32,122 @@ class PlayerController extends AbstractController
             $EM->flush();
 
             return $this->json([
-                'result' => 'Se ha creado un nuevo jugador',
+                'resultado' => 'Se ha creado un nuevo jugador',
                 'id' => $player->getId(),
-                'name' => $player->getName(),
+                'nombre' => $player->getName(),
             ]);
         }
 
         return $this->json([
-            'result' => 'Los datos recibidos no son correctos',
+            'resultado' => 'Los datos recibidos no son correctos',
+            'datos_recibidos' => $form->all()
+        ]);
+    }
+
+    #[Route('/api/jugador/registrar', name: 'app_api_jugador_registrar')]
+    public function registerr(Request $request, EntityManagerInterface $EM): JsonResponse
+    {
+        $form = $this->createForm(PlayerRegisterType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $registro = $form->getData();
+
+            $club = $registro['club'];
+            $player = $registro['player'];
+            $salary = $registro['salary'];
+
+            if($player -> getClub()){
+                return $this->json([
+                    'resultado' => 'El jugador ya está registrado en algún club',
+                    'id' => $player->getID(),
+                ]);
+            }
+
+            $budget = $club->getBudget();
+            if($budget < $salary){
+                return $this->json([
+                    'resultado' => 'El presupuesto del club no es suficiente',
+                    'presupuesto' => $budget,
+                    'salario' => $salary,
+                ]);
+            }
+
+            $player->setSalary($salary);
+            $club->addPlayer($player);
+            $club->setBudget($budget - $salary);
+
+            $EM->flush();
+
+            return $this->json([
+                'resultado' => 'El jugador ha sido registrado exitosamente en en el club indicado',
+                'id_club' => $club->getID(),
+                'id_jugador' => $player->getID()
+            ]);
+        }
+
+        return $this->json([
+            'resultado' => 'Los datos recibidos no son correctos',
+            'datos_recibidos' => $form->all()
+        ]);
+
+    }
+
+    #[Route('/api/jugador/eliminar', name: 'app_api_jugador_eliminar')]
+    public function remove(Request $request, EntityManagerInterface $EM): JsonResponse
+    {
+        $form = $this->createForm(PlayerRemoveType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $registro = $form->getData();
+
+            $club = $registro['club'];
+            $player = $registro['player'];
+
+            if($player->getClub()->getID() != $club->getID()){
+                return $this->json([
+                    'resultado' => 'El jugador no está registrado en dicho club',
+                    'id_club' => $club->getID(),
+                    'id_jugador' => $player->getID()
+                ]);
+            }
+
+            $club->setBudget($club->getBudget() + $player->getSalary());
+            $player->setSalary(null);
+            $club -> removePlayer($player);
+
+            $EM->flush();
+
+            return $this->json([
+                'resultado' => 'El jugador ha sido removido exitosamente del club indicado',
+                'id_club' => $club->getID(),
+                'id_jugador' => $player->getID()
+            ]);
+        }
+
+        return $this->json([
+            'resultado' => 'Los datos recibidos no son correctos',
+            'datos_recibidos' => $form->all()
+        ]);
+    }
+
+    #[Route('/api/jugador/listar', name: 'app_api_jugador_listar')]
+    public function listP(Request $request, PlayerRepository $repo): JsonResponse
+    {
+        $form = $this->createForm(PlayerListType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            return $this->json($repo->listPlayers($form->getData()['page']));
+
+        }
+
+        return $this->json([
+            'resultado' => 'Los datos recibidos no son correctos',
             'datos_recibidos' => $form->all()
         ]);
     }
