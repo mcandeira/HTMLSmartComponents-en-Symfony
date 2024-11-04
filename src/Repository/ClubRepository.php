@@ -18,7 +18,7 @@ class ClubRepository extends ServiceEntityRepository
         parent::__construct($registry, Club::class);
     }
 
-    public function countClubs(string $filter1 = null, string $filter2 = null): int{
+    public function countClubs(): int{
 
         $qb = $this->createQueryBuilder('e')
             ->select('count(e.id)');

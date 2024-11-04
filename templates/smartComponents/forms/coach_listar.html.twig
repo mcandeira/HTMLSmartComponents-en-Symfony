@@ -55,9 +55,7 @@
 
             const form = document.querySelector('#{{ smart.ID }} > form')
             
-            window.addEventListener('load', () => {
-                form.requestSubmit()
-            })
+            window.addEventListener('load', () => {form.requestSubmit()})
             
         })()
     </script>
@@ -74,48 +72,12 @@
 
                 smart.apiCall(e.target.action, new FormData(e.target), smart.errorConsole, (data) => {
 
-                    let outputText = ''
-                    for(let element of data.resultado){
-                        outputText += '<li><ul>'
-                        for(property in element){
+                    const contenedorPaginas = document.querySelector('#{{ smart.ID }} .pagination')
+                    const seleccionPagina = document.querySelector('#{{ smart.ID }} > form > input')
 
-                            const clave = property[0].toUpperCase() + property.substring(1)
+                    smart.generarSalida(data.resultado, output)
 
-                            outputText += property == 'club' && element[property] ?
-                                `<li><strong>${clave}</strong>: ${element[property].name ?? 'No'}.</li>` :
-                                `<li><strong>${clave}</strong>: ${element[property] ?? 'No'}.</li>`
-                        }
-                        outputText += '</li></ul>'
-                    }
-
-                    output.innerHTML = outputText
-                    output.style.border = 'solid 1px black'
-
-                    //PAGINACIÓN
-                    const pagination = document.querySelector('.pagination')
-                    const setPagina = document.querySelector('#{{ smart.ID }} > form > input')
-
-                    pagination.innerHTML = ''
-
-                    let botones = ''
-                    for(let i = 1; i <= data.paginas; i++){
-
-                        let fila = document.createElement('li')
-                        fila.classList.add('page-item')
-
-                        let boton = document.createElement('button')
-                        boton.classList.add('page-link')
-                        boton.textContent = i
-
-                        boton.addEventListener('click', () => {
-                            setPagina.value = i
-                            form.requestSubmit()
-                            setPagina.value = 1
-                        })
-
-                        fila.appendChild(boton)
-                        pagination.appendChild(fila)
-                    }
+                    smart.crearPaginacion(form, contenedorPaginas, seleccionPagina, data.paginas)
 
                 })
 

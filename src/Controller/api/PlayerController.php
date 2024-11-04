@@ -47,7 +47,7 @@ class PlayerController extends AbstractController
     }
 
     #[Route('/api/jugador/registrar', name: 'app_api_jugador_registrar')]
-    public function registerr(Request $request, EntityManagerInterface $EM): JsonResponse
+    public function register(Request $request, EntityManagerInterface $EM): JsonResponse
     {
         $form = $this->createForm(PlayerRegisterType::class);
 

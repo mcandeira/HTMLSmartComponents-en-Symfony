@@ -17,7 +17,7 @@
             border: dashed 1px grey;
             background-color: white;
             list-style-type: none;
-        }  
+        }
     </style>
 
     <script>
@@ -31,20 +31,9 @@
                 e.preventDefault()
 
                 smart.apiCall(e.target.action, new FormData(e.target), smart.errorConsole, (data) => {
+
+                    smart.generarSalida([data.resultado], output)
                     
-                    let outputText = '<li><ul>'
-                    for(property in data.resultado){
-                        
-                        const clave = property[0].toUpperCase() + property.substring(1)
-                        
-                        outputText += property == 'club' && data.resultado[property] ?
-                            `<li><strong>${clave}</strong>: ${data.resultado[property].name ?? 'No'}.</li>` :
-                            `<li><strong>${clave}</strong>: ${data.resultado[property] ?? 'No'}.</li>`
-                    }
-                    outputText += '</li></ul>'
-                    
-                    output.innerHTML = outputText
-                    output.style.border = 'solid 1px black'
                 })
 
             })

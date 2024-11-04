@@ -14,7 +14,7 @@ class FrontController extends AbstractController
         return $this->render('base.html.twig');
     }
 
-    #[Route('/{element}/{action}', name: 'app_actions')]
+    #[Route('/{element<jugador|coach|club>}/{action<crear|registrar|eliminar|listar>}', name: 'app_actions')]
     public function actions(string $element, string $action): Response
     {
         return $this->render('actions.html.twig', [
