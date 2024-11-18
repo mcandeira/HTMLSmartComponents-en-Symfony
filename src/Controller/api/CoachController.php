@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CoachController extends AbstractController
 {
-    #[Route('/api/coach/crear', name: 'app_api_coach_crear')]
+    #[Route('/api/entrenador/crear', name: 'app_api_coach_crear')]
     public function create(Request $request, EntityManagerInterface $EM): JsonResponse{
 
         $coach = new Coach();
@@ -46,7 +46,7 @@ class CoachController extends AbstractController
         ]);
     }
 
-    #[Route('/api/coach/registrar', name: 'app_api_coach_registrar')]
+    #[Route('/api/entrenador/registrar', name: 'app_api_coach_registrar')]
     public function register(Request $request, EntityManagerInterface $EM): JsonResponse
     {
         $form = $this->createForm(CoachRegisterType::class);
@@ -102,7 +102,7 @@ class CoachController extends AbstractController
 
     }
 
-    #[Route('/api/coach/eliminar', name: 'app_api_coach_eliminar')]
+    #[Route('/api/entrenador/eliminar', name: 'app_api_coach_eliminar')]
     public function remove(Request $request, EntityManagerInterface $EM): JsonResponse
     {
         $form = $this->createForm(CoachRemoveType::class);
@@ -146,7 +146,7 @@ class CoachController extends AbstractController
         ]);
     }
 
-    #[Route('/api/coach/listar', name: 'app_api_coach_listar')]
+    #[Route('/api/entrenador/listar', name: 'app_api_coach_listar')]
     public function list(Request $request, CoachRepository $repo): JsonResponse
     {
         $form = $this->createForm(CoachsListType::class);

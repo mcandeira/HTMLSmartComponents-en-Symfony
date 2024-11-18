@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Create Player",
+			"name": "Club Crear",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -16,115 +16,18 @@
 					"formdata": [
 						{
 							"key": "name",
-							"value": "Jhonny Tests",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "localhost:8000/api/player",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"player"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Coach",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "name",
-							"value": "Marco Ready",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "localhost:8000/api/coach",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"coach"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Club",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "name",
-							"value": "The Best",
+							"value": "Lightning Strikes",
 							"type": "text"
 						},
 						{
 							"key": "budget",
-							"value": "80000",
+							"value": "100000",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "localhost:8000/api/club",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"club"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Register Player",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "club",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "player",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "salary",
-							"value": "5000",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "localhost:8000/api/club/register_player",
+					"raw": "localhost:8000/api/club/crear",
 					"host": [
 						"localhost"
 					],
@@ -132,54 +35,14 @@
 					"path": [
 						"api",
 						"club",
-						"register_player"
+						"crear"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Register Coach",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "club",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "coach",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "salary",
-							"value": "17000",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "localhost:8000/api/club/register_coach",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"club",
-						"register_coach"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Modify Budget",
+			"name": "Club Modificar Presupuesto",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -193,13 +56,13 @@
 						},
 						{
 							"key": "budget",
-							"value": "90000",
+							"value": "50000",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "localhost:8000/api/club/budget",
+					"raw": "localhost:8000/api/club/modificar_presupuesto",
 					"host": [
 						"localhost"
 					],
@@ -207,110 +70,20 @@
 					"path": [
 						"api",
 						"club",
-						"budget"
+						"modificar_presupuesto"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Remove Player",
+			"name": "Club Listar",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
-						{
-							"key": "club",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "player",
-							"value": "1",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "localhost:8000/api/club/remove_player",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"club",
-						"remove_player"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Remove Coach",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "club",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "coach",
-							"value": "1",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "localhost:8000/api/club/remove_coach",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"club",
-						"remove_coach"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "List Players",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "club",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "playerProperty",
-							"value": "salary",
-							"type": "text"
-						},
-						{
-							"key": "condition",
-							"value": "<",
-							"type": "text"
-						},
-						{
-							"key": "referenceValue",
-							"value": "20000",
-							"type": "text"
-						},
 						{
 							"key": "page",
 							"value": "1",
@@ -319,7 +92,7 @@
 					]
 				},
 				"url": {
-					"raw": "localhost:8000/api/club/list_players",
+					"raw": "localhost:8000/api/club/listar",
 					"host": [
 						"localhost"
 					],
@@ -327,7 +100,247 @@
 					"path": [
 						"api",
 						"club",
-						"list_players"
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Entrenador Crear",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Just Train",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/coach/crear",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"coach",
+						"crear"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Entrenador Registrar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "club",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "coach",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "500",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/coach/registrar",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"coach",
+						"registrar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Entrenador Eliminar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "club",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "coach",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/coach/eliminar",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"coach",
+						"eliminar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Entrenador Listar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "page",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/coach/listar",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"coach",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Jugador Crear",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Max Results",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/jugador/crear",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"jugador",
+						"crear"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Jugador Registrar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "club",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "player",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "1500",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/jugador/registrar",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"jugador",
+						"registrar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Jugador Eliminar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "club",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "player",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/jugador/eliminar",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"jugador",
+						"eliminar"
 					]
 				}
 			},

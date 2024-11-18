@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% set accion = (action ~ ' ' ~ element)|title %}
+{% if action == 'listar' %}
+    {% set accion = (action ~ ' ' ~ element ~ 'es')|title %}
+{% else %}
+    {% set accion = (action ~ ' ' ~ element)|title %}
+{% endif %}
 
 {% block title %}{{ accion }}{% endblock %}
 

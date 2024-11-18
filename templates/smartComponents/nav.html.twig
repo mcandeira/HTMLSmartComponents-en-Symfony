@@ -10,12 +10,12 @@
             </ul>
         </li>
         <li>
-            <span>Coach</span>
+            <span>Entrenador</span>
             <ul>
-                <li><a href="/coach/crear">     Crear Coach      </a></li>
-                <li><a href="/coach/registrar"> Registrar Coach  </a></li>
-                <li><a href="/coach/eliminar">  Eliminar Coach   </a></li>
-                <li><a href="/coach/listar">    Listar Coaches   </a></li>
+                <li><a href="/entrenador/crear">     Crear Entrenador      </a></li>
+                <li><a href="/entrenador/registrar"> Registrar Entrenador  </a></li>
+                <li><a href="/entrenador/eliminar">  Eliminar Entrenador   </a></li>
+                <li><a href="/entrenador/listar">    Listar Entrenadores   </a></li>
             </ul>
         </li>
         <li>
@@ -23,39 +23,41 @@
             <ul>
                 <li><a href="/club/crear">                  Crear Club              </a></li>
                 <li><a href="/club/modificar_presupuesto">  Modificar Presupuesto   </a></li>
-                <li><a href="/club/listar">                 Listar Clubes           </a></li>
+                <li><a href="/club/listar">                 Listar Clubs           </a></li>
             </ul>
         </li>
     </ul>
 
     <style>
-        #{{ smart.ID }}{
-            background-color: darkorchid;
-            border-radius: 15px;
-            font-weight: bold;
-            height: fit-content;
-        }
+        @scope{
+            & {
+                background-color: darkorchid;
+                border-radius: 15px;
+                font-weight: bold;
+                height: fit-content;
+            }
 
-        #{{ smart.ID }} span{
-            color: silver;
-        }
+            span{
+                color: silver;
+            }
 
-        #{{ smart.ID }} ul{
-            padding: 20px;
-            list-style-type: none;
-        }
+            ul{
+                padding: 20px;
+                list-style-type: none;
+            }
 
-        #{{ smart.ID }} ul > li{
-            margin-top: 10px;
-        }
+            ul > li{
+                margin-top: 10px;
+            }
 
-        #{{ smart.ID }} ul > li > a{
-            color: white;
-            text-decoration: none;
-        }
+            ul > li > a{
+                color: white;
+                text-decoration: none;
+            }
 
-        #{{ smart.ID }} ul > li > a:hover{
-            color: aquamarine;
+            ul > li > a:hover{
+                color: aquamarine;
+            }
         }
     </style>
 </nav>
