@@ -16,7 +16,6 @@ class FrontController extends AbstractController
         return $this->render('base.html.twig');
     }
 
-    
     #[Route('/{element<jugador|entrenador|club>}/{action<crear|registrar|eliminar|listar|modificar_presupuesto>}', name: 'app_actions')]
     public function actions(string $element, string $action): Response
     {
@@ -24,6 +23,12 @@ class FrontController extends AbstractController
             'element' => $element,
             'action' => $action
         ]);
+    }
+
+    #[Route('/examples/{ejemplo<.*>}', name: 'app_examples')]
+    public function examples(string $ejemplo): Response
+    {
+        return $this->render('examples.html.twig', ['ejemplo' => $ejemplo]);
     }
 
 }

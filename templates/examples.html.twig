@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplos</title>
+</head>
+<body>
+    {% if ejemplo %}
+
+        {% set smart = start('examples/' ~ ejemplo) %}{#######}{{ include(smart.component, smart.vals) }}{% set smart = end() %}
+
+        <a href="/examples">Volver</a>
+
+    {% else %}
+
+        <h1>Ejemplos HTMLSmartComponents</h1>
+        <ul>
+            <li><a href="/examples/simple">Componente Simple</a></li>
+            <li><a href="/examples/simple-with-button">Componente Simple con Botón</a></li>
+            <br>
+            <li><a href="/examples/compound">Componente Compuesto</a></li>
+            <br>
+            <li><a href="/examples/comunication-son-parent">Comunicación Hijo-Padre</a></li>
+            <li><a href="/examples/comunication-directly">Comunicación Directa entre Componentes</a></li>
+        </ul>
+        
+    {% endif %}
+</body>
+</html>

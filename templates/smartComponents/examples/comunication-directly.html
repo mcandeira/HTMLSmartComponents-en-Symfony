@@ -1,0 +1,96 @@
+<script>
+    let smart = {
+        listeners: [],
+
+        registerListener: function(name, listener){
+            this.listeners[name] = listener
+        },
+
+        getListener: function(name){
+            return this.listeners[name]
+        }
+    }
+</script>
+
+<!-- ==================================================================
+        En este primer script, se simula un objeto "smart" global que
+        ofrece un mecanismo para que los componentes puedan establecer
+        un sistema de comunicación entre sí
+     ================================================================== -->
+
+<div id="smartID-A">
+    <h1>Componente Escucha</h1>
+
+    <style>
+        #smartID-A{
+            & {
+                background-color: dodgerblue;
+                color: white;
+                border-radius: 10px;
+                padding: 20px;
+            }
+        }
+    </style>
+
+    <script type="module">
+        (() => {
+
+            const component = document.querySelector('#smartID-A')
+
+            smart.registerListener('channel1', component)
+
+        })()
+    </script>
+</div>
+
+<div id="smartID-B">
+    <h1>Componente Emisor</h1>
+    <button>Enviar a Componente Escucha</button>
+
+    <template>
+        <div id="smartID-B-inside">
+            <button>Poner verde Componente Emisor</button>
+
+            <script type="module">
+                (() => {
+
+                    const component = document.querySelector("#smartID-B-inside")
+                    const button = document.querySelector("#smartID-B-inside > button")
+                    const parent = document.querySelector('#smartID-B')
+
+                    button.addEventListener('click', () => {
+                        parent.style.backgroundColor = "mediumseagreen"
+                    })
+
+                })()
+            </script>
+        </div>
+    </template>
+
+    <style>
+        #smartID-B{
+            & {
+                background-color: salmon;
+                color: white;
+                border-radius: 10px;
+                padding: 20px;
+            }
+        }
+    </style>
+
+    <script type="module">
+        (() => {
+
+            const componente = document.querySelector('#smartID-B')
+            const plantilla = document.querySelector('#smartID-B > template')
+            const button = document.querySelector('#smartID-B > button')
+
+            const otroComponente = smart.getListener('channel1')
+
+            button.addEventListener('click', () => {
+                otroComponente.append(plantilla.content.cloneNode(true))
+            })
+
+        })()
+    </script>
+</div>
