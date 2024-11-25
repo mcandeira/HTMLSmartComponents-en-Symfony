@@ -3,8 +3,8 @@
         CADA COMPONENTE DEBE IR EN SU PROPIO ARCHIVO
      ================================================================== -->
 
-<div id="smartID-AAA">
-    <h1>Componente Compuesto</h1>
+<div id="smartID">
+    <h1>Componentes Anidados</h1>
     <button>Probar!</button>
 
     <template>
@@ -12,7 +12,7 @@
     </template>
 
     <div>
-        <div id="smartID-AAA-AA">
+        <div id="smartID-A">
             <h1>Componente Anidado 1</h1>
             <button>Probar!</button>
         
@@ -21,7 +21,7 @@
             </template>
         
             <style>
-                #smartID-AAA-AA{
+                #smartID-A{
                     & {
                         background-color: dodgerblue;
                         color:white;
@@ -31,28 +31,15 @@
                         flex-direction: column;
                         align-items: center;
                     }
-        
-                    > button{
-                        padding: 5px 10px;
-                        border-radius: 15px;
-                    }
-        
-                    > p{
-                        background-color: white;
-                        color: black;
-                        border-radius: 10px;
-                        padding: 10px;
-                        font-weight: bold;
-                    }
                 }
             </style>
         
             <script type="module">
                 (() => {
         
-                    const component = document.querySelector('#smartID-AAA-AA')
-                    const template = document.querySelector('#smartID-AAA-AA > template')
-                    const button = document.querySelector('#smartID-AAA-AA > button')
+                    const component = document.querySelector('#smartID-A')
+                    const template = document.querySelector('#smartID-A > template')
+                    const button = document.querySelector('#smartID-A > button')
         
                     button.addEventListener('click', () => {
                         const copy = template.content.cloneNode(true)
@@ -62,7 +49,7 @@
                 })()
             </script>
         </div>
-        <div id="smartID-AAA-AB">
+        <div id="smartID-B">
             <h1>Componente Anidado 2</h1>
             <button>Probar!</button>
         
@@ -71,7 +58,7 @@
             </template>
         
             <style>
-                #smartID-AAA-AB{
+                #smartID-B{
                     & {
                         background-color: salmon;
                         color:white;
@@ -81,28 +68,15 @@
                         flex-direction: column;
                         align-items: center;
                     }
-        
-                    > button{
-                        padding: 5px 10px;
-                        border-radius: 15px;
-                    }
-        
-                    > p{
-                        background-color: white;
-                        color: black;
-                        border-radius: 10px;
-                        padding: 10px;
-                        font-weight: bold;
-                    }
                 }
             </style>
         
             <script type="module">
                 (() => {
         
-                    const component = document.querySelector('#smartID-AAA-AB')
-                    const template = document.querySelector('#smartID-AAA-AB > template')
-                    const button = document.querySelector('#smartID-AAA-AB > button')
+                    const component = document.querySelector('#smartID-B')
+                    const template = document.querySelector('#smartID-B > template')
+                    const button = document.querySelector('#smartID-B > button')
         
                     button.addEventListener('click', () => {
                         const copy = template.content.cloneNode(true)
@@ -112,7 +86,7 @@
                 })()
             </script>
         </div>
-        <div id="smartID-AAA-AC">
+        <div id="smartID-C">
             <h1>Componente Anidado 3</h1>
             <button>Probar!</button>
         
@@ -121,7 +95,7 @@
             </template>
         
             <style>
-                #smartID-AAA-AC{
+                #smartID-C{
                     & {
                         background-color: mediumseagreen;
                         color:white;
@@ -131,28 +105,15 @@
                         flex-direction: column;
                         align-items: center;
                     }
-        
-                    > button{
-                        padding: 5px 10px;
-                        border-radius: 15px;
-                    }
-        
-                    > p{
-                        background-color: white;
-                        color: black;
-                        border-radius: 10px;
-                        padding: 10px;
-                        font-weight: bold;
-                    }
                 }
             </style>
         
             <script type="module">
                 (() => {
         
-                    const component = document.querySelector('#smartID-AAA-AC')
-                    const template = document.querySelector('#smartID-AAA-AC > template')
-                    const button = document.querySelector('#smartID-AAA-AC > button')
+                    const component = document.querySelector('#smartID-C')
+                    const template = document.querySelector('#smartID-C > template')
+                    const button = document.querySelector('#smartID-C > button')
         
                     button.addEventListener('click', () => {
                         const copy = template.content.cloneNode(true)
@@ -165,7 +126,7 @@
     </div>
 
     <style>
-        #smartID-AAA{
+        #smartID{
             & {
                 background-color: darkorchid;
                 color:white;
@@ -176,7 +137,7 @@
                 align-items: center;
             }
 
-            > button{
+            button{
                 padding: 5px 10px;
                 border-radius: 15px;
             }
@@ -187,7 +148,11 @@
                 justify-content: space-around;
             }
 
-            > p{
+            > div > * {
+                width: 25%;
+            }
+
+            p{
                 background-color: white;
                 color: black;
                 border-radius: 10px;
@@ -200,9 +165,9 @@
     <script type="module">
         (() => {
 
-            const component = document.querySelector('#smartID-AAA')
-            const template = document.querySelector('#smartID-AAA > template')
-            const button = document.querySelector('#smartID-AAA > button')
+            const component = document.querySelector('#smartID')
+            const template = document.querySelector('#smartID > template')
+            const button = document.querySelector('#smartID > button')
 
             button.addEventListener('click', () => {
                 const copy = template.content.cloneNode(true)

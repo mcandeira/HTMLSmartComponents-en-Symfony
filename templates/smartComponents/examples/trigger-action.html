@@ -1,25 +1,27 @@
 <script>
     let smart = {
-        listeners: [],
 
-        registerListener: function(name, listener){
-            this.listeners[name] = listener
+        actions: [],
+
+        setAction(name, callback){
+            this.actions[name] = callback
         },
 
-        getListener: function(name){
-            return this.listeners[name]
+        triggerAction(name, value){
+            if(!this.actions[name]){console.log(`La acción "${name}" no existe.`); return}
+            this.actions[name](value)
         }
     }
 </script>
 
 <!-- ==================================================================
-        En este primer script, se simula un objeto "smart" global que
-        ofrece un mecanismo para que los componentes puedan establecer
-        un sistema de comunicación entre sí
+        En el script anterior, un componente puede establecer una acción
+        (con setAction()) que cualquier otro componente podrá disparar
+        (con triggerAction())
      ================================================================== -->
 
 <div id="smartID-A">
-    <h1>Componente Escucha</h1>
+    <h1>Componente Actuador</h1>
 
     <style>
         #smartID-A{
@@ -37,7 +39,9 @@
 
             const component = document.querySelector('#smartID-A')
 
-            smart.registerListener('channel1', component)
+            smart.setAction('Inyeccion en A', (inyeccion) => {
+                component.append(inyeccion)
+            })
 
         })()
     </script>
@@ -45,17 +49,17 @@
 
 <div id="smartID-B">
     <h1>Componente Emisor</h1>
-    <button>Enviar a Componente Escucha</button>
+    <button>Envia un botón al Componente Actuador</button>
 
     <template>
-        <div id="smartID-B-inside">
+        <div id="smartID-B-A">
             <button>Poner verde Componente Emisor</button>
 
             <script type="module">
                 (() => {
 
-                    const component = document.querySelector("#smartID-B-inside")
-                    const button = document.querySelector("#smartID-B-inside > button")
+                    const component = document.querySelector("#smartID-B-A")
+                    const button = document.querySelector("#smartID-B-A > button")
                     const parent = document.querySelector('#smartID-B')
 
                     button.addEventListener('click', () => {
@@ -85,10 +89,10 @@
             const plantilla = document.querySelector('#smartID-B > template')
             const button = document.querySelector('#smartID-B > button')
 
-            const otroComponente = smart.getListener('channel1')
+            const copy = plantilla.content.cloneNode(true)
 
             button.addEventListener('click', () => {
-                otroComponente.append(plantilla.content.cloneNode(true))
+                smart.triggerAction('Inyeccion en A', copy)
             })
 
         })()

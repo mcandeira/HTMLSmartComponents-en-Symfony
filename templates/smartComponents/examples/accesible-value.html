@@ -1,0 +1,78 @@
+<script>
+    let smart = {
+
+        accesibles: [],
+
+        setAccesible(name, value){
+            this.accesibles[name] = value
+        },
+
+        getAccesible(name){
+            if(!this.accesibles[name]){console.log(`El valor "${name}" no es accesible.`); return null}
+            return this.accesibles[name]
+        }
+    }
+</script>
+
+<!-- ==================================================================
+        En el script anterior, un componente puede establecer un valor
+        como públicamente accesible (con setAccesible()) de tal manera que
+        cualquier otro componente podrá obtener dicho valor (con
+        getAccesible())
+     ================================================================== -->
+
+<div id="smartID-A">
+    <h1>Componente Accesible</h1>
+
+    <style>
+        #smartID-A{
+            & {
+                background-color: dodgerblue;
+                color: white;
+                border-radius: 10px;
+                padding: 20px;
+            }
+        }
+    </style>
+
+    <script type="module">
+        (() => {
+
+            const component = document.querySelector('#smartID-A')
+            
+            smart.setAccesible('Componente A', component)
+
+        })()
+    </script>
+</div>
+
+<div id="smartID-B">
+    <h1>Componente Modificador</h1>
+    <button>Modificar el Componente Accesible</button>
+
+    <style>
+        #smartID-B{
+            & {
+                background-color: mediumseagreen;
+                color: white;
+                border-radius: 10px;
+                padding: 20px;
+            }
+        }
+    </style>
+
+    <script type="module">
+        (() => {
+
+            const componente = document.querySelector('#smartID-B')
+            const button = document.querySelector('#smartID-B > button')
+
+            button.addEventListener('click', () => {
+                let accesible = smart.getAccesible('Componente A')
+                accesible.style.backgroundColor = 'salmon'
+                accesible.querySelector('h1').textContent = 'Componente Accesible Modificado'
+            })
+
+        })()
+    </script>
+</div>
